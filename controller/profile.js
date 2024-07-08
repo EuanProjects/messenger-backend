@@ -11,10 +11,12 @@ exports.profileGet = asyncHandler(async (req, res, next) => {
 })
 
 exports.profilePost = asyncHandler(async (req, res, next) => {
-    console.log("post");
+    // check if username exists first
+    
+    console.log(req.username, req.password);
     const newProfile = new Profile({
-        username: req.username,
-        password: req.password,
+        username: req.body.username,
+        password: req.body.password,
         friends: [],
         setup: false,
         request: [],

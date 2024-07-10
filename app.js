@@ -19,6 +19,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
 const conversationRouter = require('./routes/conversation');
+const messageRouter = require('./routes/message');
+
 
 
 const app = express();
@@ -35,5 +37,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/profile', profileRouter);
 app.use('/conversation', conversationRouter);
+app.use('/message', messageRouter);
 
 module.exports = app;

@@ -4,6 +4,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('dotenv').config()
 const cors = require('cors');
+const session = require("express-session");
+const passport = require("passport");
+
 
 
 const mongoose = require("mongoose");
@@ -20,7 +23,7 @@ const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
 const conversationRouter = require('./routes/conversation');
 const messageRouter = require('./routes/message');
-
+const loginRouter = require('./routes/login');
 
 
 const app = express();
@@ -29,6 +32,8 @@ const app = express();
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
+// app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true }));
+// app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,5 +43,6 @@ app.use('/users', usersRouter);
 app.use('/profile', profileRouter);
 app.use('/conversation', conversationRouter);
 app.use('/message', messageRouter);
+app.use('/login', loginRouter);
 
 module.exports = app;

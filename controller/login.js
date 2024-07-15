@@ -52,7 +52,8 @@ exports.loginPost = asyncHandler(async (req, res, next) => {
             }
             res.json({
                 token: token,
-                setup: user.setup
+                setup: user.setup,
+                profileId: user._id
             });
         });
 

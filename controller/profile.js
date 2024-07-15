@@ -12,6 +12,17 @@ exports.profileGet = asyncHandler(async (req, res, next) => {
     res.send(allProfiles);
 })
 
+exports.profileIdGet = asyncHandler(async (req, res, next) => {
+    const profile = await Profile.find().exec();
+    res.send(profile);
+})
+
+exports.profilePut = asyncHandler(async (req, res, next) => {
+    const profile = await Profile.findByIdAndUpdate(req.params.profileId, req.body, {new : true}).exec()
+    console.log(req.body);
+    res.send(profile)
+})
+
 exports.profilePost = asyncHandler(async (req, res, next) => {
     try {
         const profile = await Profile.find({ username: req.body.username });
@@ -27,6 +38,7 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
             try {
                 const newProfile = new Profile({
                     username: req.body.username,
+                    name: "",
                     password: hashedPassword,
                     friends: [],
                     setup: false,

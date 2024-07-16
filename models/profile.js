@@ -9,7 +9,6 @@ const ProfileSchema = new Schema({
     password: { type: String },
     friends: [{ type: Schema.Types.ObjectId, ref: "Profile" }],
     setup: { type: Boolean },
-    requests: [{ type: Schema.Types.ObjectId, ref: "" }]
 })
 
 ProfileSchema.virtual('url').get(function () {

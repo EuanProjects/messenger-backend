@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const RequestSchema = new Schema({
     requesterId: { type: Schema.Types.ObjectId, ref: "Profile" },
-    acceptorId: { type: Schema.Types.ObjectId, ref: "Profile" }
+    accepterId: { type: Schema.Types.ObjectId, ref: "Profile" }
 })
 
 RequestSchema.virtual("url").get(function () {

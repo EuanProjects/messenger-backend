@@ -24,6 +24,7 @@ const profileRouter = require('./routes/profile');
 const conversationRouter = require('./routes/conversation');
 const messageRouter = require('./routes/message');
 const loginRouter = require('./routes/login');
+const requestRouter = require('./routes/request');
 
 
 const app = express();
@@ -44,5 +45,6 @@ app.use('/profile', profileRouter);
 app.use('/conversation', conversationRouter);
 app.use('/message', messageRouter);
 app.use('/login', loginRouter);
+app.use('/request', requestRouter);
 
 module.exports = app;

@@ -42,7 +42,6 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
                     password: hashedPassword,
                     friends: [],
                     setup: false,
-                    request: [],
                 });
                 const savedProfile = await newProfile.save();
                 return res.send('Profile created successfully');
@@ -54,4 +53,15 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
         return next(err);
     }
 });
+
+exports.profileFriendsGet = asyncHandler(async (req, res, next) => {
+        const friends = await Profile.findById(req.params.profileId)
+            .select("friends")
+            .populate({
+                path: "friends",
+                select: "username name"
+            })
+            .exec();
+        res.send(friends.friends);
+})
 

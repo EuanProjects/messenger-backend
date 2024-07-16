@@ -38,4 +38,8 @@ exports.requestPut = asyncHandler(async (req, res) => {
     res.send({});
 })
 
+exports.requestDelete = asyncHandler(async (req, res) => {
+    const response = await Request.findByIdAndDelete(req.params.requestId);
+    res.send(response);
+})
 

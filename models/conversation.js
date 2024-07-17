@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const ConversationSchema = new Schema({
     profileIds: [{ type: Schema.Types.ObjectId, ref: "Profile" }],
     theme: { type: String },
-    lastUpdated: { type: Date }
+    lastUpdated: { type: Date },
+    lastMessage: { type: Schema.Types.ObjectId, ref: "Message"}
 })
 
 ConversationSchema.virtual("url").get(function () {

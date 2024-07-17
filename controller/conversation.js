@@ -15,7 +15,7 @@ exports.conversationDetail = asyncHandler(async (req, res, next) => {
             select: "message profileId"
         })
         .exec();
-    res.send(conversation);
+    res.send(conversation);c
 })
 
 exports.conversationDetailProfileId = asyncHandler(async (req, res, next) => {
@@ -42,6 +42,13 @@ exports.conversationAllDetail = asyncHandler(async (req, res, next) => {
         })
         .exec();
     res.send(conversations);
+})
+
+exports.conversationExists = asyncHandler(async (req, res, next) => {
+    const conversation = await Conversation.findOne({
+        profileIds: { $all: [req.params.profileId1, req.params.profileId2] }
+    })
+    res.send(conversation);
 })
 
 exports.conversationPost = asyncHandler(async (req, res, next) => {

@@ -7,8 +7,12 @@ const ObjectId = mongoose.Types.ObjectId;
 exports.conversationDetail = asyncHandler(async (req, res, next) => {
     const conversation = await Conversation.findById(req.params.conversationId)
         .populate({
-            path: 'profileIds',
-            select: 'username'
+            path: "profileIds",
+            select: "username"
+        })
+        .populate({
+            path: "lastMessage",
+            select: "message profileId"
         })
         .exec();
     res.send(conversation);
@@ -21,6 +25,10 @@ exports.conversationDetailProfileId = asyncHandler(async (req, res, next) => {
         .populate({
             path: 'profileIds',
             select: 'username'
+        })
+        .populate({
+            path: "lastMessage",
+            select: "message profileId"
         })
         .exec();
     res.send(conversations);
@@ -40,7 +48,8 @@ exports.conversationPost = asyncHandler(async (req, res, next) => {
     const newConversation = new Conversation({
         profileIds: req.body.profileIds,
         theme: "Default",
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
+        lastMessage: null,
     })
 
     const savedConversation = await newConversation.save();

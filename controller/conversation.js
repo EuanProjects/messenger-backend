@@ -15,22 +15,23 @@ exports.conversationDetail = asyncHandler(async (req, res, next) => {
             select: "message profileId"
         })
         .exec();
-    res.send(conversation);c
+    res.send(conversation);
 })
 
 exports.conversationDetailProfileId = asyncHandler(async (req, res, next) => {
     // const friendId = new ObjectId(req.params.profileId);
     // const conversations = await Conversation.find({ profileIds : friendId })
     const conversations = await Conversation.find({ profileIds: req.params.profileId })
-        .populate({
-            path: 'profileIds',
-            select: 'username'
-        })
-        .populate({
-            path: "lastMessage",
-            select: "message profileId"
-        })
-        .exec();
+    .populate({
+        path: 'profileIds',
+        select: 'username'
+    })
+    .populate({
+        path: 'lastMessage',
+        select: 'message profileId'
+    })
+    .sort({ lastUpdated: -1 })
+    .exec();
     res.send(conversations);
 })
 
@@ -46,9 +47,12 @@ exports.conversationAllDetail = asyncHandler(async (req, res, next) => {
 
 exports.conversationExists = asyncHandler(async (req, res, next) => {
     const conversation = await Conversation.findOne({
-        profileIds: { $all: [req.params.profileId1, req.params.profileId2] }
+        profileIds: { $all: req.body.profileIds, $size: req.body.profileIds.length }
     })
-    res.send(conversation);
+    console.log(conversation);
+
+    res.send([]);
+
 })
 
 exports.conversationPost = asyncHandler(async (req, res, next) => {

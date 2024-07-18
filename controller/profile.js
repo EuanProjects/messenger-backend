@@ -6,20 +6,21 @@ const auth = require("../middleware/auth");
 
 // figure out which routes I need to restrict
 exports.profileGet = asyncHandler(async (req, res, next) => {
-    console.log("get");
     const allProfiles = await Profile.find().exec();
 
     res.send(allProfiles);
 })
 
 exports.profileIdGet = asyncHandler(async (req, res, next) => {
-    const profile = await Profile.find().exec();
+    const profile = await Profile.findById(req.params.profileId)
+        .select("username name")
+        .exec();
     res.send(profile);
 })
 
 exports.profilePut = asyncHandler(async (req, res, next) => {
-    const profile = await Profile.findByIdAndUpdate(req.params.profileId, req.body, {new : true}).exec()
     console.log(req.body);
+    const profile = await Profile.findByIdAndUpdate(req.params.profileId, req.body, {new : true}).exec()
     res.send(profile)
 })
 

@@ -46,7 +46,6 @@ exports.loginPost = asyncHandler(async (req, res, next) => {
         }
 
         jwt.sign({ user: user }, process.env.SECRET_KEY, { expiresIn: '1h' }, (err, token) => {
-            console.log(user);
             if (err) {
                 return res.status(500).json({ message: 'Failed to generate token' });
             }

@@ -31,7 +31,7 @@ exports.requestPut = asyncHandler(async (req, res) => {
         $push: { friends: req.body.accepterId }
     });
 
-    await Profile.findByIdAndUpdate(req.body.acceptorId, {
+    await Profile.findByIdAndUpdate(req.body.accepterId, {
         $push: { friends: req.body.requesterId }
     });
 

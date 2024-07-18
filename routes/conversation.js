@@ -9,6 +9,8 @@ const authMiddleware = require("../middleware/auth");
 router.get("/:conversationId", conversationController.conversationDetail);
 router.get("/profile/:profileId", conversationController.conversationDetailProfileId);
 router.get("/", conversationController.conversationAllDetail);
+router.post("/profile", conversationController.conversationExists);
+
 
 router.post("/", conversationController.conversationPost);
 

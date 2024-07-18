@@ -49,10 +49,7 @@ exports.conversationExists = asyncHandler(async (req, res, next) => {
     const conversation = await Conversation.findOne({
         profileIds: { $all: req.body.profileIds, $size: req.body.profileIds.length }
     })
-    console.log(conversation);
-
-    res.send([]);
-
+    res.send(conversation);
 })
 
 exports.conversationPost = asyncHandler(async (req, res, next) => {

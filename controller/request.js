@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 
 exports.requestPost = asyncHandler(async (req, res) => {
-    console.log("request post");
     const newRequest = new Request({
         requesterId: req.body.requesterId,
         accepterId: req.body.accepterId

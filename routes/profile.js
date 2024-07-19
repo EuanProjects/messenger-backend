@@ -7,7 +7,8 @@ router.use(authMiddleware.verify);
 
 const profileController = require("../controller/profile");
 
-router.get("/", profileController.profileGet);
+router.get("profile", profileController.profileGet);
+router.get("profiles", profileController.profilesGet);
 router.get("/:profileId/friends", profileController.profileFriendsGet);
 router.get("/:profileId", profileController.profileIdGet);
 

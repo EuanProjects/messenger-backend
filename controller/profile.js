@@ -5,7 +5,9 @@ const auth = require("../middleware/auth");
 
 
 exports.profilesGet = asyncHandler(async (req, res, next) => {
-    const allProfiles = await Profile.find().exec();
+    const allProfiles = await Profile.find()
+        .select("name")
+        .exec();
 
     res.send(allProfiles);
 })

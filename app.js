@@ -20,6 +20,7 @@ async function main() {
 
 const indexRouter = require('./routes/index');
 const profileRouter = require('./routes/profile');
+const profilesRouter = require('./routes/profiles');
 const conversationRouter = require('./routes/conversation');
 const messageRouter = require('./routes/message');
 const loginRouter = require('./routes/login');
@@ -40,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/profile', profileRouter);
-app.use('/profiles', profileRouter);
+app.use('/profiles', profilesRouter);
 app.use('/conversation', conversationRouter);
 app.use('/message', messageRouter);
 app.use('/login', loginRouter);

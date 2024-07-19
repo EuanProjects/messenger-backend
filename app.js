@@ -19,7 +19,6 @@ async function main() {
 }
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
 const conversationRouter = require('./routes/conversation');
 const messageRouter = require('./routes/message');
@@ -40,8 +39,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/profile', profileRouter);
+app.use('/profiles', profileRouter);
 app.use('/conversation', conversationRouter);
 app.use('/message', messageRouter);
 app.use('/login', loginRouter);

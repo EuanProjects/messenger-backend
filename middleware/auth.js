@@ -12,12 +12,13 @@ exports.verifyToken = (req, res, next) => {
     }
 }
 
-// exports.verify = (req, res, next) => {
-//     jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
-//         if (err) {
-//             res.sendStatus(403);
-//         } else {
-//             next()
-//         }
-//     }) 
-// }
+exports.verify = (req, res, next) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            req.user = authData
+            next()
+        }
+    }) 
+}

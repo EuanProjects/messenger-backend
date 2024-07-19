@@ -4,11 +4,15 @@ const bcrypt = require("bcryptjs");
 const auth = require("../middleware/auth");
 
 
-// figure out which routes I need to restrict
-exports.profileGet = asyncHandler(async (req, res, next) => {
+exports.profilesGet = asyncHandler(async (req, res, next) => {
     const allProfiles = await Profile.find().exec();
 
     res.send(allProfiles);
+})
+
+exports.profileGet = asyncHandler(async (req, res, next) => {
+    const user = req.user;
+    res.send({profileId: user.user._id, setup: user.user.setup});
 })
 
 exports.profileIdGet = asyncHandler(async (req, res, next) => {
@@ -19,7 +23,6 @@ exports.profileIdGet = asyncHandler(async (req, res, next) => {
 })
 
 exports.profilePut = asyncHandler(async (req, res, next) => {
-    console.log(req.body);
     const profile = await Profile.findByIdAndUpdate(req.params.profileId, req.body, {new : true}).exec()
     res.send(profile)
 })

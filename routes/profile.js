@@ -2,13 +2,19 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/auth");
 
-router.use(authMiddleware.verifyToken);
-router.use(authMiddleware.verify);
+router.use((req, res, next) => {
+    if (req.method === 'POST' && req.path === '/') {
+        next();
+    } else {
+        authMiddleware.verifyToken(req, res, () => {
+            authMiddleware.verify(req, res, next);
+        });
+    }
+});
 
 const profileController = require("../controller/profile");
 
 router.get("profile", profileController.profileGet);
-router.get("profiles", profileController.profilesGet);
 router.get("/:profileId/friends", profileController.profileFriendsGet);
 router.get("/:profileId", profileController.profileIdGet);
 

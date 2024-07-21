@@ -7,10 +7,10 @@ exports.messageGet = asyncHandler(async (req, res, next) => {
     const messages = await Message.find({ conversationId })
         .populate({
             path: 'profileId',
-            select: 'username'
+            select: 'username picture'
         })
         .exec();
-
+        console.log(messages);
     res.send(messages);
 })
 

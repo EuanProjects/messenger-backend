@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 
 exports.profilesGet = asyncHandler(async (req, res, next) => {
     const allProfiles = await Profile.find()
-        .select("name")
+        .select("name picture")
         .exec();
 
     res.send(allProfiles);
@@ -14,12 +14,12 @@ exports.profilesGet = asyncHandler(async (req, res, next) => {
 
 exports.profileGet = asyncHandler(async (req, res, next) => {
     const user = req.user;
-    res.send({profileId: user.user._id, setup: user.user.setup});
+    res.send({profileId: user.user._id, setup: user.user.setup, picture: user.user.picture});
 })
 
 exports.profileIdGet = asyncHandler(async (req, res, next) => {
     const profile = await Profile.findById(req.params.profileId)
-        .select("username name")
+        .select("username name picture")
         .exec();
     res.send(profile);
 })
@@ -44,6 +44,7 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
             try {
                 const newProfile = new Profile({
                     username: req.body.username,
+                    picture: "",
                     name: "",
                     password: hashedPassword,
                     friends: [],
@@ -65,7 +66,7 @@ exports.profileFriendsGet = asyncHandler(async (req, res, next) => {
             .select("friends")
             .populate({
                 path: "friends",
-                select: "username name"
+                select: "username name picture"
             })
             .exec();
         res.send(friends.friends);

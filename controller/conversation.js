@@ -8,7 +8,7 @@ exports.conversationDetail = asyncHandler(async (req, res, next) => {
     const conversation = await Conversation.findById(req.params.conversationId)
         .populate({
             path: "profileIds",
-            select: "name"
+            select: "name picture"
         })
         .populate({
             path: "lastMessage",
@@ -22,7 +22,7 @@ exports.conversationDetailProfileId = asyncHandler(async (req, res, next) => {
     const conversations = await Conversation.find({ profileIds: req.params.profileId })
     .populate({
         path: 'profileIds',
-        select: 'name'
+        select: 'name picture'
     })
     .populate({
         path: 'lastMessage',

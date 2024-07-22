@@ -1,4 +1,5 @@
 const Conversation = require("../models/conversation");
+const Message = require("../models/message");
 const asyncHandler = require("express-async-handler");
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -47,7 +48,7 @@ exports.conversationExists = asyncHandler(async (req, res, next) => {
     const conversation = await Conversation.findOne({
         profileIds: { $all: req.body.profileIds, $size: req.body.profileIds.length }
     })
-    res.send(conversation);
+    res.send(conversation ? conversation : {});
 })
 
 exports.conversationPost = asyncHandler(async (req, res, next) => {
@@ -65,4 +66,21 @@ exports.conversationPost = asyncHandler(async (req, res, next) => {
 exports.conversationThemePut = asyncHandler(async (req, res, next) => {
     const updatedConversation = await Conversation.findByIdAndUpdate({ _id: req.params.conversationId }, { theme: req.body.theme }, { new: true });
     res.send(updatedConversation);
+})
+
+exports.conversationDelete = asyncHandler(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    
+    try {
+        const deleteConversation = await Conversation.findByIdAndDelete(req.params.conversationId, { session });
+        await Message.deleteMany({ conversationId: req.params.conversationId }, { session });
+        await session.commitTransaction();
+        session.endSession();
+        res.status(200).send({ message: 'Conversation and messages deleted successfully.' });
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        res.status(500).send({ error: 'An error occurred while deleting conversation and messages.' });
+    }
 })

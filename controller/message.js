@@ -10,7 +10,6 @@ exports.messageGet = asyncHandler(async (req, res, next) => {
             select: 'username picture'
         })
         .exec();
-        console.log(messages);
     res.send(messages);
 })
 

@@ -10,6 +10,7 @@ router.get("/:conversationId", conversationController.conversationDetail);
 router.get("/profile/:profileId", conversationController.conversationDetailProfileId);
 router.get("/", conversationController.conversationAllDetail);
 router.post("/profile", conversationController.conversationExists);
+router.delete("/:conversationId", conversationController.conversationDelete);
 
 
 router.post("/", conversationController.conversationPost);

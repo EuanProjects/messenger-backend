@@ -52,8 +52,6 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
                 session.startTransaction();
 
                 const starterProfiles = process.env.STARTER_PROFILES.split(",");
-                console.log(starterProfiles);
-
                 const newProfile = new Profile({
                     username: req.body.username,
                     picture: "",
@@ -63,7 +61,6 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
                     setup: false,
                 });
 
-                console.log(newProfile);
                 const savedProfile = await newProfile.save();
 
                 for (let i = 0; i < starterProfiles.length; i++) {
@@ -80,23 +77,25 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
                     lastMessage: null,
                 })
                 
-                await conversation1.save();
+                const c1 = await conversation1.save();
 
                 const conversation2 = new Conversation({
-                    profileIds: [starterProfiles[1], newProfile._id],
+                    // demo profile
+                    profileIds: [starterProfiles[2], newProfile._id],
                     theme: "Default",
                     lastUpdated: curDate,
                     lastMessage: null,
                 })
                 
-                await conversation2.save();
-
+                const c2 = await conversation2.save();
                 const message = new Message({
                     timestamp: curDate,
                     conversationId: conversation2._id,
                     message: `Hello ${newProfile.username}!`,
-                    profileId: starterProfiles[1]
+                    profileId: starterProfiles[2]
                 })
+
+                await Conversation.findByIdAndUpdate(conversation2._id, {lastMessage : message._id});
 
                 await message.save();
 

@@ -103,12 +103,13 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
                 session.endSession();
                 return res.send('Profile created successfully');
             } catch (err) {
+                await session.abortTransaction();
+                session.endSession();
                 return next(err);
             }
         });
     } catch (err) {
-        await session.abortTransaction();
-        session.endSession();
+
         return next(err);
     }
 });

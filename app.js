@@ -30,32 +30,32 @@ const requestRouter = require('./routes/request');
 
 const app = express();
 
-const store = new MongoDBStore({
-  uri: process.env.MONGO_DB_URL,
-  collection: 'sessions',         
-});
+// const store = new MongoDBStore({
+//   uri: process.env.MONGO_DB_URL,
+//   collection: 'sessions',         
+// });
 
-store.on('error', function(error) {
-  console.error('Session store error:', error);
-});
+// store.on('error', function(error) {
+//   console.error('Session store error:', error);
+// });
 
 
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
-app.use(session({
-  secret: process.env.SECRET_KEY,
-  resave: false,                  
-  saveUninitialized: true,         
-  store: store,                    
-  cookie: { 
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true, 
-    sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production'
-  }
-}));
-app.use(passport.session());
+// app.use(session({
+//   secret: process.env.SECRET_KEY,
+//   resave: false,                  
+//   saveUninitialized: true,         
+//   store: store,                    
+//   cookie: { 
+//     maxAge: 1000 * 60 * 60 * 24 * 7,
+//     httpOnly: true, 
+//     sameSite: 'strict',
+//     secure: process.env.NODE_ENV === 'production'
+//   }
+// }));
+// app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

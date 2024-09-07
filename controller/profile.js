@@ -57,47 +57,47 @@ exports.profilePost = asyncHandler(async (req, res, next) => {
                     picture: "",
                     name: "",
                     password: hashedPassword,
-                    friends: starterProfiles,
+                    // friends: starterProfiles,
                     setup: false,
                 });
 
-                const savedProfile = await newProfile.save();
+                // const savedProfile = await newProfile.save();
 
-                for (let i = 0; i < starterProfiles.length; i++) {
-                    await Profile.findByIdAndUpdate(starterProfiles[i], {
-                        $push: { friends: newProfile._id }
-                    });
-                }
+                // for (let i = 0; i < starterProfiles.length; i++) {
+                //     await Profile.findByIdAndUpdate(starterProfiles[i], {
+                //         $push: { friends: newProfile._id }
+                //     });
+                // }
 
-                const curDate = new Date()
-                const conversation1 = new Conversation({
-                    profileIds: [...starterProfiles, newProfile._id],
-                    theme: "Default",
-                    lastUpdated: curDate,
-                    lastMessage: null,
-                })
+                // const curDate = new Date()
+                // const conversation1 = new Conversation({
+                //     profileIds: [...starterProfiles, newProfile._id],
+                //     theme: "Default",
+                //     lastUpdated: curDate,
+                //     lastMessage: null,
+                // })
                 
-                const c1 = await conversation1.save();
+                // const c1 = await conversation1.save();
 
-                const conversation2 = new Conversation({
-                    // demo profile
-                    profileIds: [starterProfiles[2], newProfile._id],
-                    theme: "Default",
-                    lastUpdated: curDate,
-                    lastMessage: null,
-                })
+                // const conversation2 = new Conversation({
+                //     // demo profile
+                //     profileIds: [starterProfiles[2], newProfile._id],
+                //     theme: "Default",
+                //     lastUpdated: curDate,
+                //     lastMessage: null,
+                // })
                 
-                const c2 = await conversation2.save();
-                const message = new Message({
-                    timestamp: curDate,
-                    conversationId: conversation2._id,
-                    message: `Hello ${newProfile.username}!`,
-                    profileId: starterProfiles[2]
-                })
+                // const c2 = await conversation2.save();
+                // const message = new Message({
+                //     timestamp: curDate,
+                //     conversationId: conversation2._id,
+                //     message: `Hello ${newProfile.username}!`,
+                //     profileId: starterProfiles[2]
+                // })
 
-                await Conversation.findByIdAndUpdate(conversation2._id, {lastMessage : message._id});
+                // await Conversation.findByIdAndUpdate(conversation2._id, {lastMessage : message._id});
 
-                await message.save();
+                // await message.save();
 
                 await session.commitTransaction();
                 session.endSession();

@@ -21,16 +21,16 @@ exports.conversationDetail = asyncHandler(async (req, res, next) => {
 
 exports.conversationDetailProfileId = asyncHandler(async (req, res, next) => {
     const conversations = await Conversation.find({ profileIds: req.params.profileId })
-    .populate({
-        path: 'profileIds',
-        select: 'name picture'
-    })
-    .populate({
-        path: 'lastMessage',
-        select: 'message profileId'
-    })
-    .sort({ lastUpdated: -1 })
-    .exec();
+        .populate({
+            path: 'profileIds',
+            select: 'name picture'
+        })
+        .populate({
+            path: 'lastMessage',
+            select: 'message profileId'
+        })
+        .sort({ lastUpdated: -1 })
+        .exec();
     res.send(conversations);
 })
 
@@ -71,16 +71,9 @@ exports.conversationThemePut = asyncHandler(async (req, res, next) => {
 exports.conversationDelete = asyncHandler(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
-    
-    try {
-        const deleteConversation = await Conversation.findByIdAndDelete(req.params.conversationId, { session });
-        await Message.deleteMany({ conversationId: req.params.conversationId }, { session });
-        await session.commitTransaction();
-        session.endSession();
-        res.status(200).send({ message: 'Conversation and messages deleted successfully.' });
-    } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
-        res.status(500).send({ error: 'An error occurred while deleting conversation and messages.' });
-    }
+    const deleteConversation = await Conversation.findByIdAndDelete(req.params.conversationId, { session });
+    await Message.deleteMany({ conversationId: req.params.conversationId }, { session });
+    await session.commitTransaction();
+    session.endSession();
+    res.status(200).send({ message: 'Conversation and messages deleted successfully.' });
 })

@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 passport.use(
     new LocalStrategy(async (username, password, done) => {
         try {
+            console.log(username, password);
             const profile = await Profile.findOne({ username: username });
             if (!profile) {
                 return done(null, false, { message: "Incorrect username" });

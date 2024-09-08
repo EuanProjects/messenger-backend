@@ -4,9 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('dotenv').config()
 const cors = require('cors');
-const session = require("express-session");
 const passport = require("passport");
-const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 
